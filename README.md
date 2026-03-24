@@ -174,6 +174,8 @@ kafka:
           awsStsRegion="us-east-1";
 ```
 
+If Kafka Connect workers also need IAM auth to talk to MSK, treat that as a separate runtime concern from `kafka-ui` itself. The upstream `aws-msk-iam-auth` guidance is to place that jar on the Kafka Connect worker classpath outside the plugin path; this fork does not build or own Kafka Connect runtime images.
+
 # Contributing
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md), which is the source of truth for contribution workflow in this fork.
