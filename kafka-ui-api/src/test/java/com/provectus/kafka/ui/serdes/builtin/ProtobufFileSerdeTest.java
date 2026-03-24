@@ -91,6 +91,18 @@ class ProtobufFileSerdeTest {
         );
   }
 
+  @Test
+  void loadsSchemasWhenClasspathProtoImportsAreRequired() throws Exception {
+    Map<Path, ProtobufSchema> files = Configuration.loadSchemas(
+        Optional.empty(),
+        Optional.of(protoFilesDir())
+    );
+
+    assertThat(files).containsKey(
+        ResourceUtils.getFile("classpath:protobuf-serde/address-book.proto").toPath()
+    );
+  }
+
   @SneakyThrows
   private String protoFilesDir() {
     return ResourceUtils.getFile("classpath:protobuf-serde/").getPath();

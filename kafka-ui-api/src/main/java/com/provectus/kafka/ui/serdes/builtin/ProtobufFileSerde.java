@@ -48,6 +48,8 @@ import com.squareup.wire.schema.internal.parser.ProtoParser;
 import io.confluent.kafka.schemaregistry.protobuf.ProtobufSchema;
 import io.confluent.kafka.schemaregistry.protobuf.ProtobufSchemaUtils;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -364,7 +366,8 @@ public class ProtobufFileSerde implements BuiltInSerde {
           loadKnownProtoFile("google/protobuf/struct.proto", StructProto.getDescriptor()),
           loadKnownProtoFile("google/protobuf/timestamp.proto", TimestampProto.getDescriptor()),
           loadKnownProtoFile("google/protobuf/type.proto", TypeProto.getDescriptor()),
-          loadKnownProtoFile("google/protobuf/wrappers.proto", WrappersProto.getDescriptor())
+          loadKnownProtoFile("google/protobuf/wrappers.proto", WrappersProto.getDescriptor()),
+          loadKnownProtoFileFromClasspath("wire/extensions.proto")
       ).collect(Collectors.toMap(p -> p.getLocation().getPath(), p -> p));
     }
 
@@ -381,11 +384,27 @@ public class ProtobufFileSerde implements BuiltInSerde {
       return ProtoFile.Companion.get(ProtoParser.Companion.parse(Location.get(path), protoFileString));
     }
 
+    @SneakyThrows
+    private ProtoFile loadKnownProtoFileFromClasspath(String path) {
+      try (InputStream inputStream = getClassLoader().getResourceAsStream(path)) {
+        Preconditions.checkNotNull(inputStream, "ProtoFile not found on classpath '%s'", path);
+        String protoFileString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        return ProtoFile.Companion.get(ProtoParser.Companion.parse(Location.get(path), protoFileString));
+      }
+    }
+
     private Loader createFilesLoader(Map<String, ProtoFile> files) {
       return new Loader() {
         @Override
         public @NotNull ProtoFile load(@NotNull String path) {
-          return Preconditions.checkNotNull(files.get(path), "ProtoFile not found for import '%s'", path);
+          ProtoFile protoFile = files.get(path);
+          if (protoFile == null) {
+            protoFile = tryLoadProtoFileFromClasspath(path);
+            if (protoFile != null) {
+              files.put(path, protoFile);
+            }
+          }
+          return Preconditions.checkNotNull(protoFile, "ProtoFile not found for import '%s'", path);
         }
 
         @Override
@@ -393,6 +412,22 @@ public class ProtobufFileSerde implements BuiltInSerde {
           return this;
         }
       };
+    }
+
+    @SneakyThrows
+    private @Nullable ProtoFile tryLoadProtoFileFromClasspath(String path) {
+      try (InputStream inputStream = getClassLoader().getResourceAsStream(path)) {
+        if (inputStream == null) {
+          return null;
+        }
+        String protoFileString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        return ProtoFile.Companion.get(ProtoParser.Companion.parse(Location.get(path), protoFileString));
+      }
+    }
+
+    private ClassLoader getClassLoader() {
+      return Optional.ofNullable(Thread.currentThread().getContextClassLoader())
+          .orElseGet(ProtobufFileSerde.class::getClassLoader);
     }
 
     @SneakyThrows
