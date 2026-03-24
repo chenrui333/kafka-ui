@@ -104,6 +104,10 @@ public class ConsumerGroupMapper {
         return ConsumerGroupStateDTO.DEAD;
       case EMPTY:
         return ConsumerGroupStateDTO.EMPTY;
+      case ASSIGNING:
+        return ConsumerGroupStateDTO.ASSIGNING;
+      case RECONCILING:
+        return ConsumerGroupStateDTO.RECONCILING;
       case STABLE:
         return ConsumerGroupStateDTO.STABLE;
       case PREPARING_REBALANCE:
