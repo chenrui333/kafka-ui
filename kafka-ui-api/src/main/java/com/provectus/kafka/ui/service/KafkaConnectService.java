@@ -17,6 +17,7 @@ import com.provectus.kafka.ui.model.ConnectorDTO;
 import com.provectus.kafka.ui.model.ConnectorPluginConfigValidationResponseDTO;
 import com.provectus.kafka.ui.model.ConnectorPluginDTO;
 import com.provectus.kafka.ui.model.ConnectorStateDTO;
+import com.provectus.kafka.ui.model.ConnectorStatusDTO;
 import com.provectus.kafka.ui.model.ConnectorTaskStatusDTO;
 import com.provectus.kafka.ui.model.FullConnectorInfoDTO;
 import com.provectus.kafka.ui.model.KafkaCluster;
@@ -24,6 +25,7 @@ import com.provectus.kafka.ui.model.NewConnectorDTO;
 import com.provectus.kafka.ui.model.TaskDTO;
 import com.provectus.kafka.ui.model.connect.InternalConnectInfo;
 import com.provectus.kafka.ui.util.ReactiveFailover;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,11 +40,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class KafkaConnectService {
+  private static final int CONNECTOR_STARTUP_READ_RETRIES = 5;
+  private static final Duration CONNECTOR_STARTUP_READ_RETRY_DELAY = Duration.ofMillis(200);
+
   private final ClusterMapper clusterMapper;
   private final KafkaConnectMapper kafkaConnectMapper;
   private final ObjectMapper objectMapper;
@@ -139,8 +145,36 @@ public class KafkaConnectService {
                     }))
                 .map(kafkaConnectMapper::toClient)
                 .flatMap(client::createConnector)
-                .flatMap(c -> getConnector(cluster, connectName, c.getName()))
+                .flatMap(createdConnector -> getConnector(cluster, connectName, createdConnector.getName())
+                    .retryWhen(connectorStartupReadRetry())
+                    .onErrorResume(KafkaConnectService::isConnectorStartupReadError, error -> {
+                      log.warn("Connect returned a transient error while reading newly created connector {}",
+                          createdConnector.getName(), error);
+                      return Mono.just(buildCreatedConnectorDto(connectName, createdConnector));
+                    }))
         );
+  }
+
+  private static Retry connectorStartupReadRetry() {
+    return Retry.fixedDelay(CONNECTOR_STARTUP_READ_RETRIES, CONNECTOR_STARTUP_READ_RETRY_DELAY)
+        .filter(KafkaConnectService::isConnectorStartupReadError)
+        .onRetryExhaustedThrow((spec, signal) -> signal.failure());
+  }
+
+  private static boolean isConnectorStartupReadError(Throwable error) {
+    return error instanceof WebClientResponseException.NotFound
+        || error instanceof WebClientResponseException.InternalServerError
+        || error instanceof WebClientResponseException.BadGateway
+        || error instanceof WebClientResponseException.ServiceUnavailable;
+  }
+
+  private ConnectorDTO buildCreatedConnectorDto(String connectName,
+                                                com.provectus.kafka.ui.connect.model.Connector connector) {
+    var connectorDto = kafkaConnectMapper.fromClient(connector);
+    connectorDto.setConnect(connectName);
+    connectorDto.setConfig(kafkaConfigSanitizer.sanitizeConnectorConfig(connector.getConfig()));
+    connectorDto.setStatus(new ConnectorStatusDTO().state(ConnectorStateDTO.UNASSIGNED));
+    return connectorDto;
   }
 
   private Mono<Boolean> connectorExists(KafkaCluster cluster, String connectName,
