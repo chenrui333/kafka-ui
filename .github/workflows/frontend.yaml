@@ -51,7 +51,7 @@ jobs:
           cd kafka-ui-react-app/
           pnpm test:CI
       - name: SonarCloud Scan pull request
-        if: ${{ github.event_name == 'pull_request_target' }}
+        if: ${{ github.event_name == 'pull_request_target' && github.repository == 'provectus/kafka-ui' }}
         uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
         with:
           projectBaseDir: ./kafka-ui-react-app
@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
       - name: SonarCloud Scan main
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && github.repository == 'provectus/kafka-ui' }}
         uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
         with:
           projectBaseDir: ./kafka-ui-react-app
