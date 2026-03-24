@@ -42,3 +42,4 @@ build/
 *.tgz
 
 /docker/*.override.yaml
+.claude/plans/
