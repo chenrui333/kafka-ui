@@ -9,8 +9,7 @@ on:
       - "kafka-ui-contract/**"
       - "kafka-ui-react-app/**"
 permissions:
-  checks: write
-  pull-requests: write
+  contents: read
 jobs:
   build-and-test:
     env:
@@ -50,20 +49,3 @@ jobs:
         run: |
           cd kafka-ui-react-app/
           pnpm test:CI
-      - name: SonarCloud Scan pull request
-        if: ${{ github.event_name == 'pull_request_target' && github.repository == 'provectus/kafka-ui' }}
-        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
-        with:
-          projectBaseDir: ./kafka-ui-react-app
-          args: -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} -Dsonar.pullrequest.branch=${{ github.head_ref }} -Dsonar.pullrequest.base=${{ github.base_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-      - name: SonarCloud Scan main
-        if: ${{ github.event_name == 'push' && github.repository == 'provectus/kafka-ui' }}
-        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
-        with:
-          projectBaseDir: ./kafka-ui-react-app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}

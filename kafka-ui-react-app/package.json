@@ -59,7 +59,7 @@
     "lint:CI": "eslint --ext .tsx,.ts src/ --max-warnings=0",
     "test": "jest --watch",
     "test:coverage": "jest --watchAll --coverage",
-    "test:CI": "CI=true pnpm test:coverage --ci --testResultsProcessor=\"jest-sonar-reporter\" --watchAll=false",
+    "test:CI": "CI=true pnpm test:coverage --ci --watchAll=false",
     "tsc": "tsc --pretty --noEmit",
     "deadcode": "ts-prune -i src/generated-sources"
   },
@@ -97,7 +97,6 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.5.0",
     "jest-environment-jsdom": "^29.4.3",
-    "jest-sonar-reporter": "^2.0.0",
     "jest-styled-components": "^7.1.1",
     "prettier": "^2.8.4",
     "rimraf": "^4.1.2",
