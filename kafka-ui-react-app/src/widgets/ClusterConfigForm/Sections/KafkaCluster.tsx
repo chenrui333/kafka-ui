@@ -22,6 +22,7 @@ const KafkaCluster: React.FC = () => {
   });
 
   const hasTrustStore = !!watch('truststore');
+  const authMethod = watch('auth.method');
 
   const toggleSection = (section: string) => () =>
     setValue(
@@ -55,6 +56,11 @@ const KafkaCluster: React.FC = () => {
         <InputHint>
           the list of Kafka brokers that you want to connect to
         </InputHint>
+        {authMethod === 'SASL/AWS IAM' && (
+          <InputHint>
+            for Amazon MSK IAM authentication, use the TLS broker port `9098`
+          </InputHint>
+        )}
         <S.GroupFieldWrapper>
           {fields.map((field, index) => (
             <S.BootstrapServer key={field.id}>
