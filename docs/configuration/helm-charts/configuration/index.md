@@ -27,7 +27,7 @@ Most of the Helm charts parameters are common, follow table describes unique par
 To install Kafka-UI need to execute follow:
 
 ```bash
-helm repo add kafka-ui https://provectus.github.io/kafka-ui
+helm repo add kafka-ui https://provectus.github.io/kafka-ui-charts
 helm install kafka-ui kafka-ui/kafka-ui --set envs.config.KAFKA_CLUSTERS_0_NAME=local --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
 ```
 

@@ -4,7 +4,7 @@ description: Kafka-UI Project Roadmap
 
 # Roadmap
 
-Roadmap exists in a form of a GitHub project board and is located [here](https://github.com/provectus/kafka-ui/projects/8).
+This fork does not maintain a separate public project board. Treat the repository issue tracker as the current source of truth for planned work and backlog discussion.
 
 #### How to use this document
 

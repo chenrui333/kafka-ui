@@ -21,8 +21,8 @@ auth:
         provider: <provider>
         redirect-uri: http://localhost:8080/login/oauth2/code/<provider>
         authorization-grant-type: authorization_code
-        issuer-uri: https://xxx
-        jwk-set-uri: https://yyy/.well-known/jwks.json
+        issuer-uri: <issuer-uri>
+        jwk-set-uri: <jwk-set-uri>
         user-name-attribute: <zzz>
         custom-params:
           type: <provider_type> # fill this if you're gonna use RBAC. Supported values: cognito, google, github, oauth (for other generic providers)
@@ -33,7 +33,7 @@ auth:
 
 For specific providers like Github (non-enterprise) and Google ([see the current list](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java#L35)), you don't have to specify URIs as they're well known.
 
-Furthermore, other providers that support [OIDC Service Discovery](https://openid.net/specs/openid-connect-discovery-1\_0.html#IssuerDiscovery) allow fetching URIs configuration from a `/.well-known/openid-configuration` endpoint. Depending on your setup, you may only have to set the `issuer-uri` of your provider to enable OIDC Service Discovery.
+Furthermore, other providers that support [OIDC Service Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery) allow fetching URIs configuration from a `/.well-known/openid-configuration` endpoint. Depending on your setup, you may only have to set the `issuer-uri` of your provider to enable OIDC Service Discovery.
 
 ## Provider config examples
 
@@ -58,12 +58,12 @@ auth:
         provider: cognito
         redirect-uri: http://localhost:8080/login/oauth2/code/cognito
         authorization-grant-type: authorization_code
-        issuer-uri: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_xxx
-        jwk-set-uri: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_xxx/.well-known/jwks.json
+        issuer-uri: <cognito-issuer-uri>
+        jwk-set-uri: <cognito-jwk-set-uri>
         user-name-attribute: cognito:username
         custom-params:
           type: cognito
-          logoutUrl: https://<XXX>>.eu-central-1.amazoncognito.com/logout #required just for cognito
+          logoutUrl: <cognito-logout-url> # required just for cognito
 ```
 
 ### Google
@@ -116,7 +116,7 @@ auth:
 
 Example of callback URL for github OAuth app settings:
 
-`https://www.kafka-ui.provectus.io/login/oauth2/code/github`
+`<your-kafka-ui-base-url>/login/oauth2/code/github`
 
 For the self-hosted installation find the properties a little bit below.
 
@@ -185,7 +185,7 @@ auth:
         redirect-uri: http://localhost:8080/login/oauth2/code/okta
         authorization-grant-type: authorization_code
         issuer-uri: https://<okta_domain>.okta.com
-        jwk-set-uri: https://yyy/.well-known/jwks.json
+        jwk-set-uri: <jwk-set-uri>
         user-name-attribute: sub # default for okta, "email" also available
         custom-params:
           type: oauth
