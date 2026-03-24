@@ -2,6 +2,7 @@
   "name": "kafka-ui",
   "version": "0.4.0",
   "homepage": "./",
+  "packageManager": "pnpm@9.15.9",
   "private": true,
   "dependencies": {
     "@floating-ui/react": "^0.19.2",
@@ -106,7 +107,7 @@
     "vite-plugin-ejs": "^1.6.4"
   },
   "engines": {
-    "node": "v18.17.1",
-    "pnpm": "^8.6.12"
+    "node": ">=24 <25",
+    "pnpm": ">=9 <10"
   }
 }

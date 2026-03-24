@@ -43,3 +43,4 @@ build/
 
 /docker/*.override.yaml
 .claude/plans/
+kafka-ui-react-app/test-report.xml

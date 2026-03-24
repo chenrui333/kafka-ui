@@ -8,18 +8,29 @@ UI for Apache Kafka management
 
 ## Requirements
 - [docker](https://www.docker.com/get-started) (required to run [Initialize application](#initialize-application))
-- [nvm](https://github.com/nvm-sh/nvm) with installed [Node.js](https://nodejs.org/en/) of expected version (check `.nvmrc`)
+- [mise](https://mise.jdx.dev/) with the repo-managed Node.js and pnpm versions
+
+Optional fallback if you do not use mise:
+- [Node.js](https://nodejs.org/en/) 24.x
+- [Corepack](https://nodejs.org/api/corepack.html) enabled for the pinned pnpm version
 
 ## Getting started
+
+Install the repo-managed toolchain from the repository root
+```sh
+mise install
+```
 
 Go to react app folder
 ```sh
 cd ./kafka-ui-react-app
 ```
 
-Install [pnpm](https://pnpm.io/installation)
+If you are not using mise, enable the pinned pnpm version with Corepack
 ```
-npm install -g pnpm
+npm install --global corepack@latest
+corepack enable pnpm
+corepack install
 ```
 
 Install dependencies
