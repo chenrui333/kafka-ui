@@ -24,6 +24,8 @@ UI for Apache Kafka is a simple tool that makes your data flows observable, help
 
 > Fork note: `chenrui333/kafka-ui` is maintained as a fork of the upstream Provectus project. Open fork-specific issues and pull requests in this repository. Upstream product documentation remains useful for runtime and configuration reference unless otherwise noted here.
 
+> Local development note: this fork does not maintain a `.devcontainer` or Codespaces workflow. Use local Docker or Docker Compose for services and the host-managed toolchain for source builds. For the repo-managed frontend toolchain, see [kafka-ui-react-app/README.md](kafka-ui-react-app/README.md).
+
 Set up UI for Apache Kafka with just a couple of easy commands to visualize your Kafka data in a comprehensible way. You can run the tool locally or in
 the cloud.
 

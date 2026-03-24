@@ -17,7 +17,6 @@
   "prHourlyLimit": 2,
   "rangeStrategy": "bump",
   "enabledManagers": [
-    "devcontainer",
     "dockerfile",
     "github-actions",
     "maven",
@@ -82,8 +81,7 @@
     },
     {
       "matchManagers": [
-        "dockerfile",
-        "devcontainer"
+        "dockerfile"
       ],
       "automerge": true,
       "platformAutomerge": true,
