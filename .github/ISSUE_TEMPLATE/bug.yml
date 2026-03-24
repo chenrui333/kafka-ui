@@ -17,11 +17,11 @@ body:
       label: Issue submitter TODO list
       description: By you checking these checkboxes we can be sure you've done the essential things.
       options:
-        - label: I've looked up my issue in the [upstream FAQ](https://docs.kafka-ui.provectus.io/faq/common-problems)
+        - label: I've looked up my issue in the [docs FAQ](https://chenrui333.github.io/kafka-ui/faq/common-problems)
           required: true
         - label: I've searched for an already existing issue [here](https://github.com/chenrui333/kafka-ui/issues)
           required: true
-        - label: I've tried a current build from this repo's `main` branch, or the documented upstream image for stock behavior, and the issue still persists
+        - label: I've tried a current build from this repo's `main` branch, or the documented image for this fork, and the issue still persists
           required: true
         - label: I'm running a supported version of the application which is listed [here](https://github.com/chenrui333/kafka-ui/blob/main/SECURITY.md)
           required: true

@@ -11,7 +11,7 @@
     <a href="https://github.com/chenrui333/kafka-ui">REPOSITORY</a> •
     <a href="https://github.com/chenrui333/kafka-ui/issues">ISSUES</a> •
     <a href="https://github.com/chenrui333/kafka-ui/pulls">PULL REQUESTS</a> •
-    <a href="https://docs.kafka-ui.provectus.io/">UPSTREAM DOCS</a>
+    <a href="https://chenrui333.github.io/kafka-ui/">DOCS</a>
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@
 
 UI for Apache Kafka is a simple tool that makes your data flows observable, helps find and troubleshoot issues faster and deliver optimal performance. Its lightweight dashboard makes it easy to track key metrics of your Kafka clusters - Brokers, Topics, Partitions, Production, and Consumption.
 
-> Fork note: `chenrui333/kafka-ui` is maintained as a fork of the upstream Provectus project. Open fork-specific issues and pull requests in this repository. Upstream product documentation remains useful for runtime and configuration reference unless otherwise noted here.
+> Fork note: `chenrui333/kafka-ui` is maintained as a fork of the upstream Provectus project. Fork-owned documentation now lives at `https://chenrui333.github.io/kafka-ui/`, and fork-specific issues and pull requests should stay in this repository.
 
 > Local development note: this fork does not maintain a `.devcontainer` or Codespaces workflow. Use local Docker or Docker Compose for services and the host-managed toolchain for source builds. For the repo-managed frontend toolchain, see [kafka-ui-react-app/README.md](kafka-ui-react-app/README.md).
 
@@ -39,10 +39,10 @@ the cloud.
 * **View Consumer Groups** — view per-partition parked offsets, combined and per-partition lag
 * **Browse Messages** — browse messages with JSON, plain text, and Avro encoding
 * **Dynamic Topic Configuration** — create and configure new topics with dynamic configuration
-* **Configurable Authentication** — [secure](https://docs.kafka-ui.provectus.io/configuration/authentication) your installation with optional Github/Gitlab/Google OAuth 2.0
-* **Custom serialization/deserialization plugins** - [use](https://docs.kafka-ui.provectus.io/configuration/serialization-serde) a ready-to-go serde for your data like AWS Glue or Smile, or code your own!
-* **Role based access control** - [manage permissions](https://docs.kafka-ui.provectus.io/configuration/rbac-role-based-access-control) to access the UI with granular precision
-* **Data masking** - [obfuscate](https://docs.kafka-ui.provectus.io/configuration/data-masking) sensitive data in topic messages
+* **Configurable Authentication** — [secure](https://chenrui333.github.io/kafka-ui/configuration/authentication) your installation with optional Github/Gitlab/Google OAuth 2.0
+* **Custom serialization/deserialization plugins** - [use](https://chenrui333.github.io/kafka-ui/configuration/serialization-serde) a ready-to-go serde for your data like AWS Glue or Smile, or code your own!
+* **Role based access control** - [manage permissions](https://chenrui333.github.io/kafka-ui/configuration/rbac-role-based-access-control) to access the UI with granular precision
+* **Data masking** - [obfuscate](https://chenrui333.github.io/kafka-ui/configuration/data-masking) sensitive data in topic messages
 
 # The Interface
 UI for Apache Kafka wraps major functions of Apache Kafka with an intuitive user interface.
@@ -79,15 +79,15 @@ with a few clicks in a user-friendly interface.
 
 To run UI for Apache Kafka, you can use either a pre-built Docker image or build it (or a jar file) yourself.
 
-## Quick start (Upstream demo image)
+## Quick start (GHCR demo image)
 
 ```
-docker run -it -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+docker run -it -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true ghcr.io/chenrui333/kafka-ui:latest
 ```
 
 Then access the web UI at [http://localhost:8080](http://localhost:8080)
 
-This uses the upstream public image to demo stock Kafka UI behavior. To validate changes from this fork, build from source instead. When you're done trying things out, you can proceed with a [persistent installation](https://docs.kafka-ui.provectus.io/quick-start/persistent-start)
+When you're done trying things out, you can proceed with a [persistent installation](https://chenrui333.github.io/kafka-ui/quick-start/persistent-start)
 
 ## Persistent installation
 
@@ -95,7 +95,7 @@ This uses the upstream public image to demo stock Kafka UI behavior. To validate
 services:
   kafka-ui:
     container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest # upstream image
+    image: ghcr.io/chenrui333/kafka-ui:latest
     ports:
       - 8080:8080
     environment:
@@ -104,25 +104,25 @@ services:
       - ~/kui/config.yml:/etc/kafkaui/dynamic_config.yaml
 ```
 
-Please refer to our [configuration](https://docs.kafka-ui.provectus.io/configuration/quick-start) page to proceed with further app configuration.
+Please refer to the [configuration file guide](https://chenrui333.github.io/kafka-ui/configuration/configuration-file) to proceed with further app configuration.
 
 ## Some useful configuration related links
 
-[Web UI Cluster Configuration Wizard](https://docs.kafka-ui.provectus.io/configuration/configuration-wizard)
+[Web UI Cluster Configuration Wizard](https://chenrui333.github.io/kafka-ui/configuration/configuration-wizard)
 
-[Configuration file explanation](https://docs.kafka-ui.provectus.io/configuration/configuration-file)
+[Configuration file explanation](https://chenrui333.github.io/kafka-ui/configuration/configuration-file)
 
-[Docker Compose examples](https://docs.kafka-ui.provectus.io/configuration/compose-examples)
+[Docker Compose examples](https://chenrui333.github.io/kafka-ui/configuration/compose-examples)
 
-[Misc configuration properties](https://docs.kafka-ui.provectus.io/configuration/misc-configuration-properties)
+[Misc configuration properties](https://chenrui333.github.io/kafka-ui/configuration/misc-configuration-properties)
 
 ## Helm charts
 
-[Quick start](https://docs.kafka-ui.provectus.io/configuration/helm-charts/quick-start)
+[Quick start](https://chenrui333.github.io/kafka-ui/configuration/helm-charts/quick-start)
 
 ## Building from sources
 
-[Quick start](https://docs.kafka-ui.provectus.io/development/building/prerequisites) with building
+[Quick start](https://chenrui333.github.io/kafka-ui/development/building/prerequisites) with building
 
 ## Liveliness and readiness probes
 Liveliness and readiness endpoint is at `/actuator/health`.<br/>
@@ -130,7 +130,7 @@ Info endpoint (build info) is located at `/actuator/info`.
 
 # Configuration options
 
-All of the environment variables/config properties could be found [here](https://docs.kafka-ui.provectus.io/configuration/misc-configuration-properties).
+All of the environment variables/config properties could be found [here](https://chenrui333.github.io/kafka-ui/configuration/misc-configuration-properties).
 
 ## EKS to MSK IAM on 9098
 

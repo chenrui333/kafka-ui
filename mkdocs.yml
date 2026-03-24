@@ -1,0 +1,123 @@
+site_name: UI for Apache Kafka
+site_description: Fork-owned documentation for chenrui333/kafka-ui
+site_url: https://chenrui333.github.io/kafka-ui/
+repo_url: https://github.com/chenrui333/kafka-ui
+repo_name: chenrui333/kafka-ui
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+
+theme:
+  name: material
+  language: en
+  logo: assets/images/kafka-ui-logo.png
+  favicon: assets/images/kafka-ui-logo.png
+  font: false
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: deep orange
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.path
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/extra.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/chenrui333/kafka-ui
+
+nav:
+  - Home: index.md
+  - Overview:
+      - Features: overview/features.md
+      - Getting started: overview/getting-started.md
+  - Quick start:
+      - Prerequisites: quick-start/prerequisites/index.md
+      - Kafka permissions:
+          - Overview: quick-start/prerequisites/permissions/index.md
+          - Standalone Kafka ACLs: quick-start/prerequisites/permissions/required-acls.md
+          - MSK and Serverless setup: quick-start/prerequisites/permissions/msk-+serverless-setup.md
+      - Demo run: quick-start/demo-run.md
+      - AWS Marketplace: quick-start/via-aws-marketplace.md
+      - Persistent start: quick-start/persistent-start.md
+      - K8s and Helm: quick-start/k8s-helm.md
+  - Configuration:
+      - Configuration wizard: configuration/configuration-wizard.md
+      - Configuration file: configuration/configuration-file.md
+      - Compose examples: configuration/compose-examples.md
+      - Helm charts:
+          - Overview: configuration/helm-charts/index.md
+          - Quick start: configuration/helm-charts/quick-start.md
+          - Configuration: configuration/helm-charts/configuration/index.md
+          - SSL example: configuration/helm-charts/configuration/ssl-example.md
+          - Resource limits: configuration/helm-charts/resource-limits.md
+          - Sticky sessions: configuration/helm-charts/sticky-sessions.md
+      - Misc configuration properties: configuration/misc-configuration-properties.md
+      - Complex configuration examples:
+          - Overview: configuration/configuration/complex-configuration-examples/index.md
+          - KRaft mode and multiple brokers: configuration/configuration/complex-configuration-examples/kraft-mode-+-multiple-brokers.md
+      - Kafka with SSL: configuration/ssl.md
+      - Authentication:
+          - Overview: configuration/authentication/index.md
+          - Basic authentication: configuration/authentication/basic-authentication.md
+          - OAuth2: configuration/authentication/oauth2.md
+          - AWS IAM: configuration/authentication/aws-iam.md
+          - LDAP and Active Directory: configuration/authentication/ldap-active-directory.md
+          - SSO guide: configuration/authentication/sso-guide.md
+          - SASL SCRAM: configuration/authentication/sasl_scram.md
+      - RBAC:
+          - Overview: configuration/rbac-role-based-access-control/index.md
+          - Supported identity providers: configuration/rbac-role-based-access-control/supported-identity-providers.md
+      - Data masking: configuration/data-masking.md
+      - Audit log: configuration/audit-log.md
+      - Serialization and SerDe: configuration/serialization-serde.md
+      - OpenDataDiscovery integration: configuration/opendatadiscovery-integration.md
+  - Development:
+      - Contributing: development/contributing.md
+      - Setting up git: development/setting-up-git.md
+      - Building:
+          - Overview: development/building/index.md
+          - Prerequisites: development/building/prerequisites.md
+          - With Docker: development/building/with-docker.md
+          - Without Docker: development/building/without-docker.md
+      - Testing (WIP): development/wip-testing.md
+  - Project:
+      - Code of conduct: project/code-of-conduct.md
+      - Roadmap: project/roadmap.md
+  - FAQ:
+      - Common problems: faq/common-problems.md
+      - FAQ: faq/faq.md
