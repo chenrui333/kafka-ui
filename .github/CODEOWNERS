@@ -1,18 +1,18 @@
-*                           @Haarolean
+*                           @chenrui333
 
 
 # BACKEND
-/pom.xml                    @provectus/kafka-backend
+/pom.xml                    @chenrui333
 
-/kafka-ui-contract/         @provectus/kafka-backend
+/kafka-ui-contract/         @chenrui333
 
-/kafka-ui-api/              @provectus/kafka-backend
+/kafka-ui-api/              @chenrui333
 
 # FRONTEND
-/kafka-ui-react-app/        @provectus/kafka-frontend
+/kafka-ui-react-app/        @chenrui333
 
 # TESTS
-/kafka-ui-e2e-checks/       @provectus/kafka-qa
+/kafka-ui-e2e-checks/       @chenrui333
 
 # INFRA
-/.github/workflows/         @provectus/kafka-devops
+/.github/workflows/         @chenrui333

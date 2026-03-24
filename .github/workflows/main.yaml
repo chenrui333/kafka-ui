@@ -1,8 +1,8 @@
-name: "Master: Build & deploy"
+name: "Default branch: Build & deploy"
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
 
       - name: Set up JDK
         uses: actions/setup-java@v3

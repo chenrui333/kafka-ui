@@ -21,7 +21,7 @@
 	</distributionManagement>
 	<name>kafka-ui-serde-api</name>
 	<description>kafka-ui-serde-api</description>
-	<url>http://github.com/provectus/kafka-ui</url>
+	<url>https://github.com/chenrui333/kafka-ui</url>
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
@@ -30,16 +30,15 @@
 	</licenses>
 	<developers>
 		<developer>
-			<name>Provectus</name>
-			<email>maintainers.kafka-ui@provectus.com</email>
-			<organization>Provectus</organization>
-			<organizationUrl>https://provectus.com</organizationUrl>
+			<name>chenrui333</name>
+			<organization>chenrui333</organization>
+			<organizationUrl>https://github.com/chenrui333</organizationUrl>
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git://github.com/provectus/kafka-ui.git</connection>
-		<developerConnection>scm:git:ssh://github.com:provectus/kafka-ui.git</developerConnection>
-		<url>https://github.com/provectus/kafka-ui</url>
+		<connection>scm:git:git://github.com/chenrui333/kafka-ui.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/chenrui333/kafka-ui.git</developerConnection>
+		<url>https://github.com/chenrui333/kafka-ui</url>
 	</scm>
 	<groupId>com.provectus</groupId>
 	<artifactId>kafka-ui-serde-api</artifactId>

@@ -2,20 +2,13 @@
 
 ## Supported Versions
 
-Following versions of the project are currently being supported with security updates.
+The fork currently treats the default branch as the supported security baseline.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.7.x   | :white_check_mark: |
-| 0.6.x   | :x:                |
-| 0.5.x   | :x:                |
-| 0.4.x   | :x:                |
-| 0.3.x   | :x:                |
-| 0.2.x   | :x:                |
-| 0.1.x   | :x:                |
+| `main`  | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-Please **DO NOT** file a publicly available github issues regarding security vulnerabilities.
-Send us details via email (maintainers.kafka-ui "at" provectus.com).
-Consider adding something like "security vulnerability report" in the title of an email.
+Please **DO NOT** file a publicly visible GitHub issue for security vulnerabilities.
+Use GitHub's private vulnerability reporting flow for this repository. If you cannot access private reporting, contact the repository maintainer directly through GitHub and wait for acknowledgement before disclosing details publicly.

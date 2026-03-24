@@ -53,7 +53,7 @@ jobs:
           ./mvnw -B -ntp versions:set -DnewVersion=${{ github.event.pull_request.head.sha }}
           ./mvnw -B -V -ntp -Dsurefire.suiteXmlFiles='src/test/resources/smoke.xml' -f 'kafka-ui-e2e-checks' test -Pprod
       - name: Generate allure report
-        uses: simple-elf/allure-report-action@master
+        uses: simple-elf/allure-report-action@53ebb757a2097edc77c53ecef4d454fc2f2f774c
         if: always()
         id: allure-report
         with:
@@ -62,7 +62,7 @@ jobs:
           allure_report: allure-report
           subfolder: allure-results
           report_url: "http://kafkaui-allure-reports.s3-website.eu-central-1.amazonaws.com"
-      - uses: jakejarvis/s3-sync-action@master
+      - uses: jakejarvis/s3-sync-action@7ed8b112447abb09f1da74f3466e4194fc7a6311
         if: always()
         env:
           AWS_S3_BUCKET: 'kafkaui-allure-reports'

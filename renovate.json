@@ -1,0 +1,93 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "baseBranches": [
+    "main"
+  ],
+  "timezone": "America/New_York",
+  "schedule": [
+    "before 5am on monday"
+  ],
+  "minimumReleaseAge": "3 days",
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "rangeStrategy": "bump",
+  "enabledManagers": [
+    "devcontainer",
+    "dockerfile",
+    "github-actions",
+    "maven",
+    "maven-wrapper",
+    "npm",
+    "nvm"
+  ],
+  "labels": [
+    "type/dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "maven",
+        "maven-wrapper"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "maven non-major dependencies",
+      "labels": [
+        "scope/backend",
+        "type/dependencies"
+      ]
+    },
+    {
+      "matchManagers": [
+        "npm",
+        "nvm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "frontend non-major dependencies",
+      "labels": [
+        "scope/frontend",
+        "type/dependencies"
+      ]
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "workflow non-major dependencies",
+      "labels": [
+        "scope/infrastructure",
+        "type/dependencies"
+      ]
+    },
+    {
+      "matchManagers": [
+        "dockerfile",
+        "devcontainer"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "container non-major dependencies",
+      "labels": [
+        "scope/infrastructure",
+        "type/dependencies"
+      ]
+    }
+  ]
+}

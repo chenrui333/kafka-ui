@@ -1,14 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Contributing guide
+    url: https://github.com/chenrui333/kafka-ui/blob/main/CONTRIBUTING.md
+    about: Review this repository's contribution workflow before opening large feature or maintenance changes.
+  - name: Upstream product documentation
+    url: https://docs.kafka-ui.provectus.io/
+    about: Runtime and product configuration docs still live upstream.
   - name: Report helm issue
     url: https://github.com/provectus/kafka-ui-charts
-    about: Our helm charts are located in another repo. Please raise issues/PRs regarding charts in that repo.
-  - name: Official documentation
-    url: https://docs.kafka-ui.provectus.io/
-    about: Before reaching out for support, please refer to our documentation. Read "FAQ" and "Common problems", also try using search there.
-  - name: Community Discord
-    url: https://discord.gg/4DWzD7pGE5
-    about: Chat with other users, get some support or ask questions.
-  - name: GitHub Discussions
-    url: https://github.com/provectus/kafka-ui/discussions
-    about: An alternative place to ask questions or to get some support.
+    about: Helm chart changes are maintained in the upstream charts repository.

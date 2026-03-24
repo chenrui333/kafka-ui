@@ -3,19 +3,15 @@
 #### Versatile, fast and lightweight web UI for managing Apache Kafka® clusters. Built by developers, for developers.
 <br/>
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/provectus/kafka-ui/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 ![UI for Apache Kafka Price Free](documentation/images/free-open-source.svg)
-[![Release version](https://img.shields.io/github/v/release/provectus/kafka-ui)](https://github.com/provectus/kafka-ui/releases)
-[![Chat with us](https://img.shields.io/discord/897805035122077716)](https://discord.gg/4DWzD7pGE5)
-[![Docker pulls](https://img.shields.io/docker/pulls/provectuslabs/kafka-ui)](https://hub.docker.com/r/provectuslabs/kafka-ui)
+[![Release version](https://img.shields.io/github/v/release/chenrui333/kafka-ui)](https://github.com/chenrui333/kafka-ui/releases)
 
 <p align="center">
-    <a href="https://docs.kafka-ui.provectus.io/">DOCS</a> • 
-    <a href="https://docs.kafka-ui.provectus.io/configuration/quick-start">QUICK START</a> • 
-    <a href="https://discord.gg/4DWzD7pGE5">COMMUNITY DISCORD</a>
-    <br/>
-    <a href="https://aws.amazon.com/marketplace/pp/prodview-ogtt5hfhzkq6a">AWS Marketplace</a>  •
-    <a href="https://www.producthunt.com/products/ui-for-apache-kafka/reviews/new">ProductHunt</a>
+    <a href="https://github.com/chenrui333/kafka-ui">REPOSITORY</a> •
+    <a href="https://github.com/chenrui333/kafka-ui/issues">ISSUES</a> •
+    <a href="https://github.com/chenrui333/kafka-ui/pulls">PULL REQUESTS</a> •
+    <a href="https://docs.kafka-ui.provectus.io/">UPSTREAM DOCS</a>
 </p>
 
 <p align="center">
@@ -26,9 +22,7 @@
 
 UI for Apache Kafka is a simple tool that makes your data flows observable, helps find and troubleshoot issues faster and deliver optimal performance. Its lightweight dashboard makes it easy to track key metrics of your Kafka clusters - Brokers, Topics, Partitions, Production, and Consumption.
 
-### DISCLAIMER
-<em>UI for Apache Kafka is a free tool built and supported by the open-source community. Curated by Provectus, it will remain free and open-source, without any paid features or subscription plans to be added in the future.
-Looking for the help of Kafka experts? Provectus can help you design, build, deploy, and manage Apache Kafka clusters and streaming applications. Discover [Professional Services for Apache Kafka](https://provectus.com/professional-services-apache-kafka/), to unlock the full potential of Kafka in your enterprise! </em>
+> Fork note: `chenrui333/kafka-ui` is maintained as a fork of the upstream Provectus project. Open fork-specific issues and pull requests in this repository. Upstream product documentation remains useful for runtime and configuration reference unless otherwise noted here.
 
 Set up UI for Apache Kafka with just a couple of easy commands to visualize your Kafka data in a comprehensible way. You can run the tool locally or in
 the cloud.
@@ -43,7 +37,7 @@ the cloud.
 * **View Consumer Groups** — view per-partition parked offsets, combined and per-partition lag
 * **Browse Messages** — browse messages with JSON, plain text, and Avro encoding
 * **Dynamic Topic Configuration** — create and configure new topics with dynamic configuration
-* **Configurable Authentification** — [secure](https://docs.kafka-ui.provectus.io/configuration/authentication) your installation with optional Github/Gitlab/Google OAuth 2.0
+* **Configurable Authentication** — [secure](https://docs.kafka-ui.provectus.io/configuration/authentication) your installation with optional Github/Gitlab/Google OAuth 2.0
 * **Custom serialization/deserialization plugins** - [use](https://docs.kafka-ui.provectus.io/configuration/serialization-serde) a ready-to-go serde for your data like AWS Glue or Smile, or code your own!
 * **Role based access control** - [manage permissions](https://docs.kafka-ui.provectus.io/configuration/rbac-role-based-access-control) to access the UI with granular precision
 * **Data masking** - [obfuscate](https://docs.kafka-ui.provectus.io/configuration/data-masking) sensitive data in topic messages
@@ -83,7 +77,7 @@ with a few clicks in a user-friendly interface.
 
 To run UI for Apache Kafka, you can use either a pre-built Docker image or build it (or a jar file) yourself.
 
-## Quick start (Demo run)
+## Quick start (Upstream demo image)
 
 ```
 docker run -it -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
@@ -91,7 +85,7 @@ docker run -it -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-u
 
 Then access the web UI at [http://localhost:8080](http://localhost:8080)
 
-The command is sufficient to try things out. When you're done trying things out, you can proceed with a [persistent installation](https://docs.kafka-ui.provectus.io/quick-start/persistent-start)
+This uses the upstream public image to demo stock Kafka UI behavior. To validate changes from this fork, build from source instead. When you're done trying things out, you can proceed with a [persistent installation](https://docs.kafka-ui.provectus.io/quick-start/persistent-start)
 
 ## Persistent installation
 
@@ -99,7 +93,7 @@ The command is sufficient to try things out. When you're done trying things out,
 services:
   kafka-ui:
     container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:latest # upstream image
     ports:
       - 8080:8080
     environment:
@@ -138,4 +132,4 @@ All of the environment variables/config properties could be found [here](https:/
 
 # Contributing
 
-Please refer to [contributing guide](https://docs.kafka-ui.provectus.io/development/contributing), we'll guide you from there.
+Please refer to [CONTRIBUTING.md](CONTRIBUTING.md), which is the source of truth for contribution workflow in this fork.
