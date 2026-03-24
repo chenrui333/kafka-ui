@@ -92,6 +92,13 @@ import reactor.util.function.Tuples;
 @AllArgsConstructor
 public class ReactiveAdminClient implements Closeable {
 
+  @VisibleForTesting
+  static final String UNKNOWN_VERSION = "1.0-UNKNOWN";
+
+  private static final String METADATA_VERSION_CONFIG = "metadata.version";
+  private static final String INTER_BROKER_PROTOCOL_VERSION_CONFIG = "inter.broker.protocol.version";
+  private static final String DELETE_TOPIC_ENABLE_CONFIG = "delete.topic.enable";
+
   public enum SupportedFeature {
     INCREMENTAL_ALTER_CONFIGS(2.3f),
     CONFIG_DOCUMENTATION_RETRIEVAL(2.6f),
@@ -145,16 +152,8 @@ public class ReactiveAdminClient implements Closeable {
             return loadBrokersConfig(ac, List.of(targetNodeId))
                 .map(map -> map.isEmpty() ? List.<ConfigEntry>of() : map.get(targetNodeId))
                 .flatMap(configs -> {
-                  String version = "1.0-UNKNOWN";
-                  boolean topicDeletionEnabled = true;
-                  for (ConfigEntry entry : configs) {
-                    if (entry.name().contains("inter.broker.protocol.version")) {
-                      version = entry.value();
-                    }
-                    if (entry.name().equals("delete.topic.enable")) {
-                      topicDeletionEnabled = Boolean.parseBoolean(entry.value());
-                    }
-                  }
+                  String version = detectKafkaVersion(configs);
+                  boolean topicDeletionEnabled = extractTopicDeletionEnabled(configs);
                   final String finalVersion = version;
                   final boolean finalTopicDeletionEnabled = topicDeletionEnabled;
                   return SupportedFeature.forVersion(ac, version)
@@ -310,6 +309,35 @@ public class ReactiveAdminClient implements Closeable {
    */
   public Mono<Map<Integer, List<ConfigEntry>>> loadBrokersConfig(List<Integer> brokerIds) {
     return loadBrokersConfig(client, brokerIds);
+  }
+
+  @VisibleForTesting
+  static String detectKafkaVersion(List<ConfigEntry> configs) {
+    String interBrokerProtocolVersion = null;
+    for (ConfigEntry entry : configs) {
+      if (METADATA_VERSION_CONFIG.equals(entry.name()) && hasNonBlankValue(entry)) {
+        return entry.value();
+      }
+      if (INTER_BROKER_PROTOCOL_VERSION_CONFIG.equals(entry.name()) && hasNonBlankValue(entry)) {
+        interBrokerProtocolVersion = entry.value();
+      }
+    }
+    return interBrokerProtocolVersion != null ? interBrokerProtocolVersion : UNKNOWN_VERSION;
+  }
+
+  @VisibleForTesting
+  static boolean extractTopicDeletionEnabled(List<ConfigEntry> configs) {
+    return configs.stream()
+        .filter(entry -> DELETE_TOPIC_ENABLE_CONFIG.equals(entry.name()))
+        .map(ConfigEntry::value)
+        .filter(value -> value != null && !value.isBlank())
+        .map(Boolean::parseBoolean)
+        .findFirst()
+        .orElse(true);
+  }
+
+  private static boolean hasNonBlankValue(ConfigEntry entry) {
+    return entry.value() != null && !entry.value().isBlank();
   }
 
   public Mono<Map<String, TopicDescription>> describeTopics() {
