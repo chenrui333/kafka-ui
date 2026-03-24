@@ -18,13 +18,13 @@ jobs:
       NODE_ENV: dev
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Install node
-        uses: actions/setup-node@v5.2.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: "24.14.0"
           cache: "pnpm"
@@ -53,7 +53,7 @@ jobs:
           pnpm test:CI
       - name: SonarCloud Scan pull request
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: sonarsource/sonarcloud-github-action@ba3875ecf642b2129de2b589510c81a8b53dbf4e
+        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
         with:
           projectBaseDir: ./kafka-ui-react-app
           args: -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} -Dsonar.pullrequest.branch=${{ github.head_ref }} -Dsonar.pullrequest.base=${{ github.base_ref }}
@@ -62,7 +62,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
       - name: SonarCloud Scan main
         if: ${{ github.event_name == 'push' }}
-        uses: sonarsource/sonarcloud-github-action@ba3875ecf642b2129de2b589510c81a8b53dbf4e
+        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5.0.0
         with:
           projectBaseDir: ./kafka-ui-react-app
         env:

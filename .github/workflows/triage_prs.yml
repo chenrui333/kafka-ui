@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label PR
-        uses: andymckay/labeler@3a4296e9dcdf9576b0456050db78cfd34853f260
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90 # 1.0.4
         with:
           add-labels: "status/triage"
           ignore-if-labeled: true

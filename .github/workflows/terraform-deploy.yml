@@ -26,14 +26,14 @@ jobs:
           echo "Terraform will be triggered in this dir $TF_DIR"
 
       - name: Configure AWS credentials for Kafka-UI account
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
       - name: Terraform Install
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4.0.0
 
       - name: Terraform init
         id: init
