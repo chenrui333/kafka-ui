@@ -2,7 +2,10 @@ import {
   ApplicationConfigPropertiesKafkaClusters,
   ApplicationConfigPropertiesKafkaSchemaRegistrySsl,
 } from 'generated-sources';
-import { ClusterConfigFormValues } from 'widgets/ClusterConfigForm/types';
+import {
+  ClusterConfigFormValues,
+  SecurityProtocol,
+} from 'widgets/ClusterConfigForm/types';
 
 import { convertPropsKeyToFormKey } from './convertPropsKeyToFormKey';
 
@@ -28,6 +31,52 @@ const parseKeystore = (
 const parseCredentials = (username?: string, password?: string) => {
   if (!username || !password) return { isAuth: false };
   return { isAuth: true, username, password };
+};
+
+const parseJaasOptions = (jaasConfig?: string) => {
+  const options: Record<string, string> = {};
+  if (!jaasConfig) return options;
+
+  Array.from(
+    jaasConfig.matchAll(/([A-Za-z0-9_.-]+)=(?:"([^"]*)"|([^"\s;]+))/g)
+  ).forEach(([, key, quotedValue, rawValue]) => {
+    const value = quotedValue ?? rawValue;
+    if (value) {
+      options[key] = value;
+    }
+  });
+
+  return options;
+};
+
+const getSecurityProtocol = (value?: string): SecurityProtocol =>
+  value === 'SASL_PLAINTEXT' ? 'SASL_PLAINTEXT' : 'SASL_SSL';
+
+const getAwsIamAuth = (properties: Record<string, string>) => {
+  if (properties['sasl.mechanism'] !== 'AWS_MSK_IAM') {
+    return undefined;
+  }
+
+  const jaasOptions = parseJaasOptions(properties['sasl.jaas.config']);
+
+  return {
+    consumedKeys: new Set([
+      'security.protocol',
+      'sasl.mechanism',
+      'sasl.client.callback.handler.class',
+      'sasl.jaas.config',
+    ]),
+    value: {
+      method: 'SASL/AWS IAM',
+      securityProtocol: getSecurityProtocol(properties['security.protocol']),
+      props: {
+        awsProfileName: jaasOptions.awsProfileName,
+        awsRoleArn: jaasOptions.awsRoleArn,
+        awsRoleSessionName: jaasOptions.awsRoleSessionName,
+        awsStsRegion: jaasOptions.awsStsRegion,
+      },
+    },
+  };
 };
 
 export const getInitialFormData = (
@@ -99,12 +148,19 @@ export const getInitialFormData = (
     };
   }
 
-  const properties = payload.properties || {};
+  const properties = (payload.properties || {}) as Record<string, string>;
+  const awsIamAuth = getAwsIamAuth(properties);
+  if (awsIamAuth) {
+    initialValues.auth = awsIamAuth.value;
+  }
 
   // Authentification
   initialValues.customAuth = {};
 
   Object.entries(properties).forEach(([key, val]) => {
+    if (awsIamAuth?.consumedKeys.has(key)) {
+      return;
+    }
     if (
       key.startsWith('security.') ||
       key.startsWith('sasl.') ||

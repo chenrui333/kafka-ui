@@ -121,6 +121,25 @@ const authPropsSchema = lazy((_, { parent }) => {
     case 'SASL/AWS IAM':
       return object({
         awsProfileName: string(),
+        awsRoleArn: string(),
+        awsRoleSessionName: string().when('awsRoleArn', {
+          is: (v: string) => !v,
+          then: (schema) =>
+            schema.test(
+              'aws-role-session-name-requires-role-arn',
+              'AWS Role ARN is required when AWS Role Session Name is set',
+              (value) => !value
+            ),
+        }),
+        awsStsRegion: string().when('awsRoleArn', {
+          is: (v: string) => !v,
+          then: (schema) =>
+            schema.test(
+              'aws-sts-region-requires-role-arn',
+              'AWS Role ARN is required when AWS STS Region is set',
+              (value) => !value
+            ),
+        }),
       });
     case 'mTLS':
     default:

@@ -17,7 +17,7 @@ type MethodName = keyof typeof JAAS_CONFIGS;
 
 export const getJaasConfig = (
   method: MethodName,
-  options: Record<string, string>
+  options: Record<string, string | undefined>
 ) => {
   const optionsString = Object.entries(options)
     .map(([key, value]) => {

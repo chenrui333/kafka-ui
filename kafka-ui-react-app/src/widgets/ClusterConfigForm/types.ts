@@ -1,4 +1,4 @@
-type SecurityProtocol = 'SASL_SSL' | 'SASL_PLAINTEXT';
+export type SecurityProtocol = 'SASL_SSL' | 'SASL_PLAINTEXT';
 type BootstrapServer = {
   host: string;
   port: string;

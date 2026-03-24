@@ -76,12 +76,36 @@ const AuthenticationMethods: React.FC<{ method: string }> = ({ method }) => {
       );
     case 'SASL/AWS IAM':
       return (
-        <Input
-          label="AWS Profile Name"
-          type="text"
-          name="auth.props.awsProfileName"
-          withError
-        />
+        <>
+          <Input
+            label="AWS Profile Name"
+            type="text"
+            name="auth.props.awsProfileName"
+            withError
+            hint="Optional. Leave all AWS IAM fields blank to use the pod or service-account role from the default AWS credential chain, including EKS IRSA."
+          />
+          <Input
+            label="AWS Role ARN"
+            type="text"
+            name="auth.props.awsRoleArn"
+            withError
+            hint="Optional. Use this when kafka-ui should assume a dedicated role before connecting to MSK."
+          />
+          <Input
+            label="AWS Role Session Name"
+            type="text"
+            name="auth.props.awsRoleSessionName"
+            withError
+            hint="Optional. Useful for a stable session identity when assuming a role for MSK IAM auth."
+          />
+          <Input
+            label="AWS STS Region"
+            type="text"
+            name="auth.props.awsStsRegion"
+            withError
+            hint="Optional. Set this when STS must use a regional endpoint, for example through a VPC endpoint."
+          />
+        </>
       );
     case 'mTLS':
       return <SSLForm prefix="auth.keystore" title="Keystore" />;
