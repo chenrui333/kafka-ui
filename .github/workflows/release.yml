@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   release:
@@ -76,11 +77,11 @@ jobs:
         uses: docker/setup-qemu-action@v3.6.0
 
       - name: Set up Docker Buildx
-        if: github.repository == 'provectus/kafka-ui'
+        if: github.repository == 'provectus/kafka-ui' || github.repository == 'chenrui333/kafka-ui'
         uses: docker/setup-buildx-action@v3.11.1
 
       - name: Cache Docker layers
-        if: github.repository == 'provectus/kafka-ui'
+        if: github.repository == 'provectus/kafka-ui' || github.repository == 'chenrui333/kafka-ui'
         uses: actions/cache@v4.2.4
         with:
           path: /tmp/.buildx-cache
@@ -95,7 +96,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push DockerHub image
         if: github.repository == 'provectus/kafka-ui'
         uses: docker/build-push-action@v7.0.0
         with:
@@ -106,6 +107,30 @@ jobs:
           tags: |
             provectuslabs/kafka-ui:${{ steps.release_target.outputs.version }}
             provectuslabs/kafka-ui:latest
+          build-args: |
+            JAR_FILE=kafka-ui-api-${{ steps.release_target.outputs.version }}.jar
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Login to GHCR
+        if: github.repository == 'chenrui333/kafka-ui'
+        uses: docker/login-action@v3.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push GHCR image
+        if: github.repository == 'chenrui333/kafka-ui'
+        uses: docker/build-push-action@v7.0.0
+        with:
+          context: kafka-ui-api
+          platforms: linux/amd64
+          provenance: false
+          push: true
+          tags: |
+            ghcr.io/chenrui333/kafka-ui:${{ steps.release_target.outputs.version }}
+            ghcr.io/chenrui333/kafka-ui:latest
           build-args: |
             JAR_FILE=kafka-ui-api-${{ steps.release_target.outputs.version }}.jar
           cache-from: type=local,src=/tmp/.buildx-cache
