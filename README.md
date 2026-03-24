@@ -130,6 +130,48 @@ Info endpoint (build info) is located at `/actuator/info`.
 
 All of the environment variables/config properties could be found [here](https://docs.kafka-ui.provectus.io/configuration/misc-configuration-properties).
 
+## EKS to MSK IAM on 9098
+
+This fork supports the common EKS deployment shape where `kafka-ui` connects to an MSK cluster with IAM auth on broker port `9098`.
+
+For runtime auth, use:
+
+- `security.protocol: SASL_SSL`
+- `sasl.mechanism: AWS_MSK_IAM`
+- `sasl.client.callback.handler.class: software.amazon.msk.auth.iam.IAMClientCallbackHandler`
+
+If `kafka-ui` runs with pod or service-account credentials in EKS, including IRSA, you can leave the AWS IAM fields blank in the cluster configuration wizard. That path uses the default AWS credential provider chain and generates:
+
+```yaml
+kafka:
+  clusters:
+    - name: msk-eks
+      bootstrapServers: b-1.example.kafka.us-east-1.amazonaws.com:9098
+      properties:
+        security.protocol: SASL_SSL
+        sasl.mechanism: AWS_MSK_IAM
+        sasl.client.callback.handler.class: software.amazon.msk.auth.iam.IAMClientCallbackHandler
+        sasl.jaas.config: software.amazon.msk.auth.iam.IAMLoginModule required;
+```
+
+If you want `kafka-ui` to assume a dedicated IAM role before connecting to MSK, the cluster wizard also supports optional `awsRoleArn`, `awsRoleSessionName`, and `awsStsRegion` fields. That maps to JAAS config like:
+
+```yaml
+kafka:
+  clusters:
+    - name: msk-eks
+      bootstrapServers: b-1.example.kafka.us-east-1.amazonaws.com:9098
+      properties:
+        security.protocol: SASL_SSL
+        sasl.mechanism: AWS_MSK_IAM
+        sasl.client.callback.handler.class: software.amazon.msk.auth.iam.IAMClientCallbackHandler
+        sasl.jaas.config: >-
+          software.amazon.msk.auth.iam.IAMLoginModule required
+          awsRoleArn="arn:aws:iam::123456789012:role/msk-ui"
+          awsRoleSessionName="kafka-ui"
+          awsStsRegion="us-east-1";
+```
+
 # Contributing
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md), which is the source of truth for contribution workflow in this fork.
