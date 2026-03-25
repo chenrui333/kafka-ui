@@ -22,7 +22,9 @@
 
 UI for Apache Kafka is a simple tool that makes your data flows observable, helps find and troubleshoot issues faster and deliver optimal performance. Its lightweight dashboard makes it easy to track key metrics of your Kafka clusters - Brokers, Topics, Partitions, Production, and Consumption.
 
-> Fork note: `chenrui333/kafka-ui` is maintained as a fork of the upstream Provectus project. Fork-owned documentation now lives at `https://chenrui333.github.io/kafka-ui/`, and fork-specific issues and pull requests should stay in this repository.
+> Maintenance note: this fork is planned for archival. For ongoing development and support, use the actively maintained successor project at [kafbat/kafka-ui](https://github.com/kafbat/kafka-ui).
+
+> Fork note: `chenrui333/kafka-ui` was maintained as a fork of the upstream Provectus project. Existing fork-owned documentation remains at `https://chenrui333.github.io/kafka-ui/`, and historical fork-specific issues and pull requests stay in this repository.
 
 > Local development note: this fork does not maintain a `.devcontainer` or Codespaces workflow. Use local Docker or Docker Compose for services and the host-managed toolchain for source builds. For the repo-managed frontend toolchain, see [kafka-ui-react-app/README.md](kafka-ui-react-app/README.md).
 
