@@ -49,6 +49,15 @@ else
   printf -- '- %s\n' "${changes[@]}"
 fi
 
+echo
+echo "## Docker"
+echo
+echo '```'
+echo "docker pull ghcr.io/${repo_slug}:${tag}"
+echo '```'
+echo
+echo "Multi-arch image (linux/amd64, linux/arm64)."
+
 if [[ -n "${previous_tag}" && -n "${repo_slug}" ]]; then
   echo
   echo "## Full Changelog"
