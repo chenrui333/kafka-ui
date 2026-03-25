@@ -1,4 +1,4 @@
-name: CVE checks docker main
+name: CVE checks container main
 on:
   workflow_dispatch:
   schedule:
@@ -20,15 +20,13 @@ jobs:
       - name: Build project
         id: build
         run: |
-          ./mvnw -B -ntp versions:set -DnewVersion=$GITHUB_SHA
+          ./mvnw -B -ntp versions:set -DnewVersion="$GITHUB_SHA"
           ./mvnw -B -V -ntp clean package -DskipTests
-          export VERSION=$(./mvnw -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
+          VERSION="$(./mvnw -q -Dexec.executable=echo -Dexec.args="\${project.version}" --non-recursive exec:exec)"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
       - name: Cache Docker layers
@@ -48,7 +46,7 @@ jobs:
           push: false
           load: true
           tags: |
-            provectuslabs/kafka-ui:${{ steps.build.outputs.version }}
+            ghcr.io/chenrui333/kafka-ui:${{ steps.build.outputs.version }}
           build-args: |
             JAR_FILE=kafka-ui-api-${{ steps.build.outputs.version }}.jar
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -57,6 +55,6 @@ jobs:
       - name: Run CVE checks
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
-          image-ref: "provectuslabs/kafka-ui:${{ steps.build.outputs.version }}"
+          image-ref: "ghcr.io/chenrui333/kafka-ui:${{ steps.build.outputs.version }}"
           format: "table"
           exit-code: "1"

@@ -72,45 +72,18 @@ jobs:
           files: |
             kafka-ui-api/target/kafka-ui-api-${{ steps.release_target.outputs.version }}.jar
 
-      - name: Set up QEMU
-        if: github.repository == 'provectus/kafka-ui'
-        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
-
       - name: Set up Docker Buildx
-        if: github.repository == 'provectus/kafka-ui' || github.repository == 'chenrui333/kafka-ui'
+        if: github.repository == 'chenrui333/kafka-ui'
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
       - name: Cache Docker layers
-        if: github.repository == 'provectus/kafka-ui' || github.repository == 'chenrui333/kafka-ui'
+        if: github.repository == 'chenrui333/kafka-ui'
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
-      - name: Login to DockerHub
-        if: github.repository == 'provectus/kafka-ui'
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push DockerHub image
-        if: github.repository == 'provectus/kafka-ui'
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
-        with:
-          context: kafka-ui-api
-          platforms: linux/amd64,linux/arm64
-          provenance: false
-          push: true
-          tags: |
-            provectuslabs/kafka-ui:${{ steps.release_target.outputs.version }}
-            provectuslabs/kafka-ui:latest
-          build-args: |
-            JAR_FILE=kafka-ui-api-${{ steps.release_target.outputs.version }}.jar
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Login to GHCR
         if: github.repository == 'chenrui333/kafka-ui'

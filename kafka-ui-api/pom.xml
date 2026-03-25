@@ -489,7 +489,7 @@
                             <verbose>true</verbose>
                             <images>
                                 <image>
-                                    <name>provectuslabs/kafka-ui:${git.revision}</name>
+                                    <name>ghcr.io/chenrui333/kafka-ui:${git.revision}</name>
                                     <build>
                                         <contextDir>${project.basedir}</contextDir>
                                         <args>
