@@ -37,6 +37,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      # CVE scanning uses load:true (local Docker daemon) which only supports
+      # a single platform. amd64 is sufficient — the base image, JDK, and app
+      # JAR share the same CVE surface across architectures.
       - name: Build docker image
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
