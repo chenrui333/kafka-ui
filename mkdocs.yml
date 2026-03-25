@@ -114,7 +114,7 @@ nav:
           - Prerequisites: development/building/prerequisites.md
           - With Docker: development/building/with-docker.md
           - Without Docker: development/building/without-docker.md
-      - Testing (WIP): development/wip-testing.md
+
   - Project:
       - Code of conduct: project/code-of-conduct.md
       - Roadmap: project/roadmap.md

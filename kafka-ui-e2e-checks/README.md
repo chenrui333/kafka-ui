@@ -9,12 +9,7 @@ This repository is for E2E UI automation.
 - [How to run checks](#how-to-run-checks)
 - [Qase.io integration (for internal users)](#qase-integration)
 - [Reporting](#reporting)
-- [Environments setup](#environments-setup)
-- [Test Data](#test-data)
-- [Actions](#actions)
-- [Checks](#checks)
-- [Parallelization](#parallelization)
-- [How to develop](#how-to-develop)
+- [Tips](#tips)
 
 ### Prerequisites
 
@@ -77,30 +72,6 @@ allure serve
 ### Screenshots
 
 Reference screenshots are in `SCREENSHOTS_FOLDER`  (default,`kafka-ui-e2e-checks/screenshots`)
-
-### How to develop
-
-> ⚠️ todo
-
-### Setting for different environments
-
-> ⚠️ todo
-
-### Test Data
-
-> ⚠️ todo
-
-### Actions
-
-> ⚠️ todo
-
-### Checks
-
-> ⚠️ todo
-
-### Parallelization
-
-> ⚠️ todo
 
 ### Tips
 
